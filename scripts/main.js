@@ -4,7 +4,6 @@
     'link': string,
   }[],
 */
-/* control by keyboard */
 class Nav {
   constructor(config) {
     this.config = config;
@@ -18,25 +17,24 @@ class Nav {
     const navList = this.createOptions();
     
     this.nav.appendChild(navList);
-
-    // control by keyboard
-    this.nav.addEventListener('keydown', (e) => {
-      console.log(e)
-      if (e.key === 'ArrowDown') {
-        this.selected++;
-        if (this.selected >= this.options.length) {
-          this.selected = 0;
-        }
-      } else if (e.key === 'ArrowUp') {
-        this.selected--;
-        if (this.selected < 0) {
-          this.selected = this.options.length - 1;
-        }
-      }
-
-      this.updateNav();
-    });
   }
+
+  nextOption() {
+    this.selected++;
+    if (this.selected >= this.options.length) {
+      this.selected = 0;
+    }
+    this.updateNav();
+  }
+
+  prevOption() {
+    this.selected--;
+    if (this.selected < 0) {
+      this.selected = this.options.length - 1;
+    }
+    this.updateNav();
+  }
+  
 
   createOptions() {
     const ul = document.createElement('ul');
@@ -79,3 +77,10 @@ const nav = new Nav({
 
 nav.init();
 
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') {
+    nav.nextOption();
+  } else if (e.key === 'ArrowUp') {
+    nav.prevOption();
+  }
+});
