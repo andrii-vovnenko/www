@@ -12,7 +12,6 @@ export default class Nav {
   }
 
   init() {
-    console.log('init');
     this.nav = document.querySelector('.nav');
     const navList = this.createOptions();
     
@@ -24,7 +23,9 @@ export default class Nav {
       } else if (e.key === 'ArrowUp') {
         this.prevOption();
       } else if (e.key === 'Enter') {
-        window.location.href = this.options[this.selected].link;
+        const selectedOption = this.nav.querySelector('.selected');
+        const a = selectedOption.querySelector('a');
+        a?.click()
       }
     });
   }
@@ -66,6 +67,10 @@ export default class Nav {
     const a = document.createElement('a');
     a.href = option.link;
     a.textContent = option.text;
+    if (option.external) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    }
     li.appendChild(a);
     return li;
   }
